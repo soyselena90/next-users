@@ -1,0 +1,30 @@
+.usercard {
+   max-width: 18.75rem;
+   min-width: 18.75rem;
+   height: 23.75rem;
+   border-radius: 1em;
+   border: 1px solid rgb(238, 74, 74);
+   background-color: #fff;
+   text-align: center;
+   padding: 1em;
+}
+
+.usercard h1 {
+   font-size: 3em;
+   margin-top: 1.2em;
+}
+.user_text {
+   margin-top: 2em;
+}
+.user_text p {
+   font-size: 1.2em;
+   line-height: 1.25;
+   font-weight: 300;
+   color: #000;
+   word-break: break-all;
+}
+.user_text .username {
+   font-weight: 600;
+   font-size: 1.5em;
+   margin-bottom: 0.5em;
+}

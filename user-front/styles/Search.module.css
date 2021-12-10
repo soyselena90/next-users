@@ -1,0 +1,47 @@
+.search {
+   width: 100%;
+   text-align: center;
+   margin: 3em 0 5em;
+}
+
+.search input {
+   width: 25em;
+   height: 1.5em;
+   text-indent: 0.5em;
+   font-size: 1.2em;
+   line-height: 1.25;
+   border: 2px solid rgb(12, 37, 121);
+   outline: none;
+}
+.goback {
+   color: #000;
+   text-transform: uppercase;
+   font-size: 1.2em;
+   line-height: 1.25;
+   border-bottom: 1px solid #000;
+   margin: 2em 0;
+   display: inline-block;
+}
+.searchTitle {
+   font-size: 1.2em;
+   line-height: 3.5;
+   font-weight: 300;
+   margin-top: 8em;
+}
+.searchTitle span {
+   font-weight: 300;
+   font-style: italic;
+}
+.searchUserList {
+   margin-bottom: 10em;
+   display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   row-gap: 1em;
+}
+.noResult {
+   text-align: center;
+   font-size: 1.5em;
+   line-height: 3;
+   margin-bottom: 5em;
+   text-transform: uppercase;
+}

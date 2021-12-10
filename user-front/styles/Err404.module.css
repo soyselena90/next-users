@@ -1,0 +1,13 @@
+.error {
+   text-align: center;
+}
+.error p {
+   font-size: 2em;
+   font-style: italic;
+   margin-bottom: 3em;
+}
+.wrongButton {
+   color: blue;
+   font-size: 1.2em;
+   border-bottom: 1px solid #000;
+}

@@ -1,0 +1,40 @@
+.userForm {
+   width: 28em;
+   margin: 0 auto 15em;
+}
+.inputWrap {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 0.5em;
+   font-size: 1.2em;
+}
+.inputWrap label {
+   text-transform: uppercase;
+   font-weight: 600;
+}
+.inputWrap input {
+   width: 65%;
+   padding: 0.3em 0;
+   border: none;
+   border-bottom: 2px solid rgb(26, 26, 26);
+   background: transparent;
+   outline: none;
+   font-size: 1.2em;
+   text-indent: 0.3em;
+   color: rgb(22, 11, 11);
+}
+.submitButton {
+   width: 100%;
+   font-size: 1.1em;
+   line-height: 2.5;
+   margin-top: 3em;
+   transition: 0.5s ease-in;
+   background: #fff;
+   color: rgb(235, 71, 71);
+   border: 1px solid rgb(235, 71, 71);
+}
+.submitButton:hover {
+   background: rgb(235, 71, 71);
+   color: #fff;
+}

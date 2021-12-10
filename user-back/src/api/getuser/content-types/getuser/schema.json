@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "getusers",
+  "info": {
+    "singularName": "getuser",
+    "pluralName": "getusers",
+    "displayName": "getuser",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "username": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "address": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "website": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "company": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
+    },
+    "num": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    }
+  }
+}

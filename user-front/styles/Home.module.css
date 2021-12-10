@@ -1,0 +1,56 @@
+.homeWrap {
+   min-height: 70vh;
+}
+.home {
+   margin: 3em 0 10em;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.home li {
+   width: 18em;
+   height: 18em;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   position: relative;
+}
+
+.home li a {
+   color: #000;
+}
+.home li div,
+.home li a {
+   width: 100%;
+   height: 100%;
+   border-radius: 1em;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   transform-style: preserve-3d;
+   transition: all 0.5s ease-in-out;
+   backface-visibility: hidden;
+}
+.back {
+   font-size: 2em;
+   font-weight: 600;
+   text-transform: uppercase;
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: -1;
+   transform: rotateY(-180deg);
+   border: 2px solid rgb(50, 185, 84);
+}
+.front {
+   transform: rotateY(0deg);
+   font-size: 3.5em;
+   border: 2px solid rgb(238, 73, 73);
+}
+.home li:hover .front {
+   transform: rotateY(180deg);
+}
+.home li:hover .back {
+   transform: rotateY(0deg);
+   z-index: 1;
+}
