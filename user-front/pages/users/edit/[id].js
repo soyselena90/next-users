@@ -1,166 +1,171 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
 import Layout from "@/components/Layout";
-import styles from "@/styles/AddUser.module.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import { API_URL } from "@/config/index";
+import axios from "axios";
 import Link from "next/link";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import styles from "@/styles/EditPage.module.css";
+import Router, { useRouter } from "next/router";
 
-export default function addUser() {
-   const router = useRouter();
+export default function EditPage({ editData, editData: { attributes } }) {
    const [values, setValues] = useState({
-      num: "",
-      name: "",
-      username: "",
-      email: "",
-      address: "",
-      phone: "",
-      website: "",
-      company: "",
-      icon: "",
+      id: editData.id,
+      name: attributes.name,
+      username: attributes.username,
+      email: attributes.email,
+      address: attributes.address,
+      phone: attributes.phone,
+      website: attributes.website,
+      company: attributes.company,
+      icon: attributes.icon,
    });
+   const router = useRouter();
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // validation empty fields
+      //Validation
       const hasEmptyFields = Object.values(values).some(
          (element) => element === ""
       );
-
       if (hasEmptyFields) {
-         toast.error("Please fill in all fields");
+         toast.error("fill the form!!!");
       }
 
-      const response = await axios.post(`${API_URL}/getusers`, {
+      const response = await axios.put(`${API_URL}/getusers/${editData.id}`, {
          data: { ...values },
       });
-
-      if (response.status !== 200) {
-         if (response.status === 403 || response.status === 401) {
-            toast.error("No token included");
-            return;
-         }
-         toast.error("Something Went Wrong");
+      console.log("response", response);
+      if (response.status === 403 || response.status === 401) {
+         toast.error("No token included");
+         return;
       } else {
-         router.push(`/users`);
+         router.push("/users");
       }
    };
-
-   const handleInputChange = (e) => {
+   const handleOnChange = (e) => {
       const { name, value } = e.target;
       setValues({
          ...values,
          [name]: value,
       });
    };
-
    return (
-      <Layout title="register account">
+      <Layout title="Edit page">
          <Link href="/users">
-            <a>Go Back</a>
+            <a className="goback">Go Back</a>
          </Link>
-         <div>
-            <h1 className="title m2em">Register</h1>
-            <ToastContainer />
-            <form className={styles.userForm} onSubmit={handleSubmit}>
+         <h1 className="title">Edit</h1>
+         <ToastContainer />
+         <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.grid}>
                <div className={styles.inputWrap}>
-                  <label htmlFor="num">id</label>
+                  <label htmlFor="id">id</label>
                   <input
                      type="number"
-                     name="num"
-                     id="num"
-                     value={values.num}
-                     onChange={handleInputChange}
+                     id="id"
+                     name="id"
+                     value={values.id}
+                     readOnly
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="icon">icon</label>
                   <input
                      type="text"
-                     name="icon"
                      id="icon"
+                     name="icon"
                      value={values.icon}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
+                  />
+               </div>
+
+               <div className={styles.inputWrap}>
+                  <label htmlFor="username">username</label>
+                  <input
+                     type="text"
+                     id="username"
+                     name="username"
+                     value={values.username}
+                     readOnly
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="name">name</label>
                   <input
                      type="text"
-                     name="name"
                      id="name"
+                     name="name"
                      value={values.name}
-                     onChange={handleInputChange}
-                  />
-               </div>
-               <div className={styles.inputWrap}>
-                  <label htmlFor="username">username</label>
-                  <input
-                     type="text"
-                     name="username"
-                     id="username"
-                     value={values.username}
-                     onChange={handleInputChange}
+                     readOnly
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="email">email</label>
                   <input
                      type="email"
-                     name="email"
                      id="email"
+                     name="email"
                      value={values.email}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="address">address</label>
                   <input
                      type="text"
-                     name="address"
                      id="address"
                      value={values.address}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="phone">phone</label>
                   <input
                      type="phone"
-                     name="phone"
                      id="phone"
+                     name="phone"
                      value={values.phone}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="website">website</label>
                   <input
                      type="url"
-                     name="website"
                      id="website"
+                     name="website"
                      value={values.website}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
                   />
                </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="company">company</label>
                   <input
                      type="text"
-                     name="company"
                      id="company"
+                     name="company"
                      value={values.company}
-                     onChange={handleInputChange}
+                     onChange={handleOnChange}
                   />
                </div>
-               <button className={styles.submitButton} type="submit">
-                  OK
-               </button>
-            </form>
-         </div>
+            </div>
+            <button className={styles.submitButton} type="submit">
+               OK
+            </button>
+         </form>
       </Layout>
    );
+}
+
+export async function getServerSideProps({ params: { id }, req }) {
+   const response = await axios.get(`${API_URL}/getusers/${id}`);
+   const editData = response.data.data;
+
+   return {
+      props: {
+         editData,
+      },
+   };
 }

@@ -5,9 +5,9 @@ class fetchAPI {
 
    async getData(dataurl) {
       const response = await this.datas.get(dataurl);
-      return response.data;
+      return response.data.data;
    }
-   async putData(dataurl) {
+   async postData(dataurl) {
       const response = await this.datas.post(dataurl);
       return response.data.data;
    }

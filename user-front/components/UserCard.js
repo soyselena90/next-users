@@ -1,11 +1,11 @@
 import styles from "@/styles/UserCard.module.css";
 import Link from "next/link";
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, userID }) {
    return (
       <li className={styles.usercard}>
          <h1>{user.icon}</h1>
-         <Link href={`/users/${user.num}`}>
+         <Link href={`/users/${userID}`}>
             <a>
                <div className={styles.user_text}>
                   <p className={styles.username}>{user.username}</p>
@@ -17,8 +17,12 @@ export default function UserCard({ user }) {
             </a>
          </Link>
          <div className="user_button">
-            <button>Edit</button>
-            <button>delete</button>
+            <Link href={`/users/edit/${userID}`}>
+               <a>Edit</a>
+            </Link>
+            <Link href={`/users/edit/${userID}`}>
+               <a>delete</a>
+            </Link>
          </div>
       </li>
    );

@@ -161,6 +161,15 @@ button {
 .m2em {
    margin: 2em 0;
 }
+.goback {
+   display: inline-block;
+   font-size: 0.8em;
+   font-style: italic;
+   margin: 3em 0;
+   font-weight: 600;
+   color: rgb(109, 105, 105);
+   border-bottom: 1px solid #000;
+}
 
 /* slick-slider*/
 .slick-slider {
@@ -216,7 +225,7 @@ button {
 .user_button {
    margin-top: 1em;
 }
-.user_button button {
+.user_button a {
    padding: 0.5em 1em;
    margin-left: 0.5em;
    background-color: rgb(252, 112, 112);
