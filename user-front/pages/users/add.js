@@ -11,7 +11,6 @@ import Link from "next/link";
 export default function addUser() {
    const router = useRouter();
    const [values, setValues] = useState({
-      num: "",
       name: "",
       username: "",
       email: "",
@@ -66,16 +65,6 @@ export default function addUser() {
             <h1 className="title m2em">Register</h1>
             <ToastContainer />
             <form className={styles.userForm} onSubmit={handleSubmit}>
-               <div className={styles.inputWrap}>
-                  <label htmlFor="num">id</label>
-                  <input
-                     type="number"
-                     name="num"
-                     id="num"
-                     value={values.num}
-                     onChange={handleInputChange}
-                  />
-               </div>
                <div className={styles.inputWrap}>
                   <label htmlFor="icon">icon</label>
                   <input

@@ -1,0 +1,36 @@
+.post {
+   border: 1px solid #000;
+   margin: 1em 0;
+   padding: 1em;
+}
+.postWrap p {
+   line-height: 1.5;
+}
+.postWrap p:first-of-type {
+   text-indent: 0.5em;
+   font-size: 0.8em;
+   text-align: right;
+}
+.postWrap p:nth-of-type(3) {
+   font-size: 1.1em;
+   font-weight: bold;
+   text-transform: uppercase;
+}
+.postButton {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+.postButton a {
+   display: block;
+   cursor: pointer;
+   background: rgb(18, 114, 114);
+   color: #fff;
+   text-transform: uppercase;
+   margin-left: 1em;
+   padding: 0.8em;
+   transition: 0.5s;
+}
+.postButton a:hover {
+   opacity: 0.85;
+}

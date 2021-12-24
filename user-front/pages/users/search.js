@@ -9,7 +9,6 @@ import styles from "@/styles/Search.module.css";
 
 export default function Search({ searchResult }) {
    const router = useRouter();
-   console.log("searchResult", searchResult);
    return (
       <Layout title="Search Results">
          <Link href="/users">
@@ -70,7 +69,6 @@ export async function getServerSideProps({ query: { term } }) {
    // );
    const response = await axios.get(`${API_URL}/getusers?${query}`);
    const searchResult = response.data.data;
-   console.log("searchResult", searchResult);
    return {
       props: { searchResult },
    };

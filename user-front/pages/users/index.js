@@ -1,48 +1,60 @@
 import axios from "axios";
-import { API_URL } from "config";
+import { useState } from "react";
+import Slider from "react-slick";
+import Modal from "@/components/Modal";
+import { API_URL } from "@/config/index";
 import Layout from "@/components/Layout";
 import UserCard from "@/components/UserCard";
-import Slider from "react-slick";
 import SearchPage from "@/components/Search";
 
 export default function Users({ users }) {
+   const [showModal, setShowModal] = useState(false);
+
    const settings = {
       dots: false,
       arrows: true,
       infinite: false,
       autoplay: false,
       slidesToShow: 4,
-      slidesToScroll: 1,
+      slidesToScroll: 4,
       variableWidth: true,
    };
 
    return (
-      console.log("users", users),
-      (
-         <Layout
-            title="All Users"
-            description="Show All Users"
-            keywrods="jsonplaceholder users userlist"
-         >
-            <div className="min-height flex-center">
-               <div>
-                  <h1 className="title">LIST OF USERS</h1>
-                  <SearchPage />
-                  <ul>
-                     <Slider {...settings}>
-                        {users.map((user) => (
-                           <UserCard
-                              key={user.id}
-                              userID={user.id}
-                              user={user.attributes}
-                           />
-                        ))}
-                     </Slider>
-                  </ul>
-               </div>
+      <Layout
+         title="All Users"
+         description="Show All Users"
+         keywords="jsonplaceholder users userlist"
+      >
+         <div className="min-height flex-center">
+            <div>
+               <h1 className="title m2em">LIST OF USERS</h1>
+               <button onClick={() => setShowModal(true)}>
+                  {" "}
+                  moooooooodddaaaaaaalllll{" "}
+               </button>
+               <Modal
+                  onClose={() => setShowModal(false)}
+                  show={showModal}
+                  title="users"
+               >
+                  user lists. are you?
+               </Modal>
+               <SearchPage />
+               <ul>
+                  <Slider {...settings}>
+                     {users?.map((user) => (
+                        <UserCard
+                           key={user.id}
+                           userID={user.id}
+                           user={user.attributes}
+                        />
+                     ))}
+                  </Slider>
+               </ul>
             </div>
-         </Layout>
-      )
+         </div>
+      </Layout>
    );
 }
 

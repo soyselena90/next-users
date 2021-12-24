@@ -1,13 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Layout from "@/components/Layout";
 import { toast, ToastContainer } from "react-toastify";
+import AuthContext from "context/AuthContext";
 
 export default function LoginPage() {
-   const [username, setUsername] = useState("");
+   const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
+
+   const { login, error } = useContext(AuthContext);
 
    const handleSubmit = (e) => {
       console.log("submit");
+      login({ email, password });
    };
 
    return (
@@ -15,13 +19,13 @@ export default function LoginPage() {
          <div className="container">
             <form onSubmit={handleSubmit}>
                <div className="inputWrap">
-                  <label htmlFor="username">username</label>
+                  <label htmlFor="email">email</label>
                   <input
-                     type="text"
-                     value={username}
-                     id="username"
-                     placeholder="user name"
-                     onChange={(e) => setUsername(e.target.value)}
+                     type="teemailxt"
+                     value={email}
+                     id="email"
+                     placeholder="email"
+                     onChange={(e) => setEmail(e.target.value)}
                   />
                </div>
                <div className="inputWrap">

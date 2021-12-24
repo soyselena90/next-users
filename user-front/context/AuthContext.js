@@ -1,6 +1,7 @@
-import { NEXT_URL } from "@/config/index";
+import { API_URL, NEXT_URL } from "@/config/index";
+import axios from "axios";
 import { useRouter } from "next/router";
-import { useState, createContext, useEffect } from "react";
+import { createContext, useState } from "react";
 
 const AuthContext = createContext();
 
@@ -9,93 +10,31 @@ export const AuthProvider = ({ children }) => {
    const [error, setError] = useState(null);
    const router = useRouter();
 
-   useEffect(() => {
-      checkUserLoggedIn();
-   }, []);
+   // const login = async ({ email: identifier, password }) => {
+   //    const response = await axios.post(`${NEXT_URL}/api/login`, {
+   //       body: { identifier, password },
+   //    });
+   //    const loginData = response.data;
+   //    console.log("loginData :", loginData);
+   // };
 
-   //Register user
-   const register = async (info) => {
-      const userData = {
-         user: {
-            ...info,
-         },
-      };
-      const response = await fetch(`${NEXT_URL}/api/register`, {
-         method: "POST",
-         headers: {
-            "Context-Type": "application/json",
-         },
-         body: JSON.stringify({ ...userData.user }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-         console.log("data : ", data);
-         setUser(data.user);
-         //  router.push("/account/dashboard");
-         router.push("/");
-      } else {
-         setError(data.message);
-         setError(null);
-      }
-      console.log("userdattt", userData);
+   const login = (info) => {
+      setUser(info);
+      console.log("user :::", user);
    };
 
-   //Login user
-   const login = async ({ email: identifier, password }) => {
-      const response = await fetch(`${NEXT_URL}/api/login`, {
-         method: "POST",
-         headers: {
-            "Context-Type": "application/json",
-         },
-         body: JSON.stringify({ identifier, password }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-         console.log("data", data);
-         console.log("data user", data.user);
-
-         setUser(data.user);
-         router.push("/");
-         //  router.push("/account/dashboard");
-      } else {
-         setError(data.message);
-         setError(null);
-      }
-   };
-
-   //Logout user
-   const logout = async () => {
-      const res = await fetch(`${NEXT_URL}/api/logout`, {
-         method: "POST",
-      });
-
-      if (res.ok) {
+   const logout = () => {
+      if (confirm("Do you want to log-out?")) {
          setUser(null);
-         router.push("/");
+         router.push("/users");
       }
-   };
-
-   //Check if user is loogged in
-   const checkUserLoggedIn = async (info) => {
-      const res = await fetch(`${NEXT_URL}/api/user`);
-      const userData1 = await res.json();
-      console.log("userData1 : ", userData1);
-      // const userData = userData1.user;
-
-      // if (res.ok) {
-      //    setUser(userData);
-      // } else {
-      //    setUser(null);
-      // }
+      return;
    };
 
    return (
-      <AuthContext.Provider value={{ user, error, register, login, logout }}>
+      <AuthContext.Provider value={{ error, user, setUser, login, logout }}>
          {children}
       </AuthContext.Provider>
    );
 };
-
 export default AuthContext;

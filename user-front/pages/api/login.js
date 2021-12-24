@@ -1,18 +1,23 @@
 import cookie from "cookie";
 import { API_URL } from "@/config/index";
+import axios from "axios";
 
 export default async (req, res) => {
    if (req.method === "POST") {
       const { identifier, password } = JSON.parse(req.body);
-      const strapiRes = await fetch(`${API_URL}/auth/local`, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-         },
-         body: JSON.stringify({ identifier, password }),
+      // const strapiRes = await fetch(`${API_URL}/auth/local`, {
+      //    method: "POST",
+      //    headers: {
+      //       "Content-Type": "application/json",
+      //    },
+      //    body: JSON.stringify({ identifier, password }),
+      // });
+
+      const strapiRes = await axios.post(`${API_URL}/auth/local`, {
+         body: { identifier, password },
       });
 
-      const strapiData = await strapiRes.json();
+      const strapiData = strapiRes.data;
 
       if (strapiRes.ok) {
          //Set Cookie
