@@ -2,6 +2,7 @@
    border: 1px solid #000;
    margin: 1em 0;
    padding: 1em;
+   min-width: 80rem;
 }
 .postWrap p {
    line-height: 1.5;
@@ -21,7 +22,7 @@
    justify-content: flex-end;
    align-items: center;
 }
-.postButton a {
+.postButton button {
    display: block;
    cursor: pointer;
    background: rgb(18, 114, 114);
@@ -33,4 +34,8 @@
 }
 .postButton a:hover {
    opacity: 0.85;
+}
+
+.postWrap {
+   color: #000;
 }

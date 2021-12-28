@@ -1,7 +1,7 @@
-import { API_URL, NEXT_URL } from "@/config/index";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { createContext, useState } from "react";
+import { API_URL } from "@/config/index";
 
 const AuthContext = createContext();
 
@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
 
    const login = (info) => {
       setUser(info);
-      console.log("user :::", user);
    };
 
    const logout = () => {
@@ -31,8 +30,20 @@ export const AuthProvider = ({ children }) => {
       return;
    };
 
+   const delUser = async (id) => {
+      const response = await axios.delete(`${API_URL}/getusers/${id}`);
+      const deleteItem = response.data.data;
+      if (response.status !== 200) {
+         toast.error(deleteItem);
+      }
+      console.log("userID ::", id);
+      console.log("삭제되었다. ::", id);
+   };
+
    return (
-      <AuthContext.Provider value={{ error, user, setUser, login, logout }}>
+      <AuthContext.Provider
+         value={{ error, user, setUser, login, logout, delUser }}
+      >
          {children}
       </AuthContext.Provider>
    );

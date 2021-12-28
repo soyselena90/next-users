@@ -1,12 +1,12 @@
-import Layout from "@/components/Layout";
-import { API_URL } from "@/config/index";
 import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/router";
+import Layout from "@/components/Layout";
+import { API_URL } from "@/config/index";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "@/styles/EditPage.module.css";
-import Router, { useRouter } from "next/router";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function EditPage({ editData, editData: { attributes } }) {
    const [values, setValues] = useState({
@@ -116,6 +116,7 @@ export default function EditPage({ editData, editData: { attributes } }) {
                   <input
                      type="text"
                      id="address"
+                     name="address"
                      value={values.address}
                      onChange={handleOnChange}
                   />
@@ -162,7 +163,7 @@ export default function EditPage({ editData, editData: { attributes } }) {
 export async function getServerSideProps({ params: { id }, req }) {
    const response = await axios.get(`${API_URL}/getusers/${id}`);
    const editData = response.data.data;
-
+   console.log("req", req);
    return {
       props: {
          editData,

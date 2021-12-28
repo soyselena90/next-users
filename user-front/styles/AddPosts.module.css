@@ -1,0 +1,38 @@
+.form {
+   padding: 0 20em 15em;
+}
+.inputWrap {
+   margin-left: 1em;
+}
+.inputWrap label {
+   text-transform: uppercase;
+   font-size: 0.9em;
+   line-height: 1.5;
+   font-weight: 500;
+}
+.inputWrap input {
+   line-height: 1;
+}
+.postBox {
+   display: flex;
+   flex-direction: column;
+   margin-top: 1em;
+}
+.postBox input {
+   font-size: 1.2em;
+   line-height: 1.5;
+}
+.postBox label {
+   margin-bottom: 0.5em;
+}
+.inputWrap textarea {
+}
+.nonChange {
+   border: none;
+   font-style: italic;
+   opacity: 0.8;
+   outline: none;
+   width: 10em;
+   font-size: 1.1em;
+   text-align: center;
+}

@@ -1,13 +1,13 @@
+import Link from "next/link";
 import Layout from "@/components/Layout";
 import styles from "@/styles/Home.module.css";
-import store from "@/zustand/store";
-import Link from "next/link";
-import { useEffect } from "react";
+import AuthContext from "context/AuthContext";
+import { useContext, useEffect } from "react";
 
 export default function Home() {
-   const { fetchSelectUserID } = store();
+   const { setUser } = useContext(AuthContext);
    useEffect(() => {
-      fetchSelectUserID(null);
+      setUser(null);
    }, []);
 
    return (

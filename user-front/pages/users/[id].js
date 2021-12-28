@@ -6,9 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import store from "@/zustand/store";
 import { useContext, useEffect } from "react";
-import fetchData from "@/config/http";
 import AuthContext from "context/AuthContext";
 
 export default function SelectUser({ select, select: { attributes } }) {
@@ -24,13 +22,10 @@ export default function SelectUser({ select, select: { attributes } }) {
    //    });
    // }, []);
 
-   const { fetchSelectUserID } = store();
    const { login } = useContext(AuthContext);
 
    useEffect(() => {
-      fetchSelectUserID(select.id);
-      login(attributes);
-      console.log("id attributes :", attributes);
+      login(select);
    }, [select]);
 
    const category = [
@@ -44,7 +39,7 @@ export default function SelectUser({ select, select: { attributes } }) {
       "company",
    ];
    const router = useRouter();
-   const deleUser = async () => {
+   const delUser = async () => {
       if (confirm("Are you sure?")) {
          const response = await axios.delete(
             `${API_URL}/getusers/${select.id}`
@@ -88,7 +83,7 @@ export default function SelectUser({ select, select: { attributes } }) {
                <Link href={`/users/edit/${select.id}`}>
                   <a>edit</a>
                </Link>
-               <a onClick={deleUser}>delete</a>
+               <a onClick={delUser}>delete</a>
             </div>
          </div>
       </Layout>

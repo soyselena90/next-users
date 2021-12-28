@@ -1,37 +1,38 @@
 import axios from "axios";
 import Link from "next/link";
-import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import { API_URL } from "@/config/index";
+import Layout from "@/components/Layout";
 import NoUser from "@/components/Nouser";
-import { useContext, useState } from "react";
 import AuthContext from "context/AuthContext";
+import { useContext, useState } from "react";
 import styles from "@/styles/AddPosts.module.css";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
-export default function AddPost() {
+export default function PostEditPage({ post, post: { attributes } }) {
    const { user } = useContext(AuthContext);
    const router = useRouter();
    const [values, setValues] = useState({
-      userId: user.id.toString(),
-      title: "",
-      body: "",
+      userId: attributes.userId,
+      title: attributes.title,
+      body: attributes.body,
    });
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      // validation empty fieldes
+      console.log("submitt");
+
+      //Validation
       const hasEmptyFields = Object.values(values).some(
          (element) => element === ""
       );
-
       if (hasEmptyFields) {
-         toast.error("Please fill in all fields");
+         toast.error("fill the form!!!");
       }
 
       await axios
-         .post(`${API_URL}/posts`, {
+         .put(`${API_URL}/posts/${post.id}`, {
             data: { ...values },
          })
          .then((response) => {
@@ -42,11 +43,8 @@ export default function AddPost() {
                router.push(`/posts/${user.id}`);
             }
          })
-         .catch((error) => {
-            console.log("error: ", error.response);
-         });
+         .catch((err) => console.log("error :", err));
    };
-
    const handleOnChange = (e) => {
       const { name, value } = e.target;
       setValues({
@@ -54,8 +52,9 @@ export default function AddPost() {
          [name]: value,
       });
    };
+
    return (
-      <Layout>
+      <Layout title="Post Edit page">
          {user ? (
             <>
                <Link href="/posts">
@@ -63,7 +62,7 @@ export default function AddPost() {
                </Link>
                <ToastContainer />
                <div>
-                  <h1 className="title m2em">Add Post</h1>
+                  <h1 className="title m2em">Edit Post</h1>
                   <form className={styles.form} onSubmit={handleSubmit}>
                      <div className="flex-end">
                         <div className={styles.inputWrap}>
@@ -114,7 +113,7 @@ export default function AddPost() {
                         ></textarea>
                      </div>
                      <div className="user_button center">
-                        <button type="submit">ADD POST</button>
+                        <button type="submit">Edit POST</button>
                      </div>
                   </form>
                </div>
@@ -124,4 +123,14 @@ export default function AddPost() {
          )}
       </Layout>
    );
+}
+
+export async function getServerSideProps(context) {
+   const { id } = context.query;
+   const response = await axios.get(`${API_URL}/posts/${id}`);
+   const post = response.data.data;
+
+   return {
+      props: { post },
+   };
 }

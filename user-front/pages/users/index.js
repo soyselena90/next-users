@@ -1,14 +1,20 @@
 import axios from "axios";
-import { useState } from "react";
 import Slider from "react-slick";
 import Modal from "@/components/Modal";
 import { API_URL } from "@/config/index";
 import Layout from "@/components/Layout";
 import UserCard from "@/components/UserCard";
 import SearchPage from "@/components/Search";
+import AuthContext from "context/AuthContext";
+import { useContext, useState, useEffect } from "react";
 
 export default function Users({ users }) {
    const [showModal, setShowModal] = useState(false);
+   const { setUser } = useContext(AuthContext);
+
+   useEffect(() => {
+      setUser(null);
+   }, []);
 
    const settings = {
       dots: false,
@@ -29,16 +35,13 @@ export default function Users({ users }) {
          <div className="min-height flex-center">
             <div>
                <h1 className="title m2em">LIST OF USERS</h1>
-               <button onClick={() => setShowModal(true)}>
-                  {" "}
-                  moooooooodddaaaaaaalllll{" "}
-               </button>
+               <button onClick={() => setShowModal(true)}>TEST MODAL</button>
                <Modal
                   onClose={() => setShowModal(false)}
                   show={showModal}
                   title="users"
                >
-                  user lists. are you?
+                  Click outside to close to this modal ~
                </Modal>
                <SearchPage />
                <ul>

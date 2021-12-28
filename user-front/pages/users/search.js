@@ -10,25 +10,32 @@ import styles from "@/styles/Search.module.css";
 export default function Search({ searchResult }) {
    const router = useRouter();
    return (
-      <Layout title="Search Results">
-         <Link href="/users">
-            <a className={styles.goback}>go back</a>
-         </Link>
-         <h1 className="title m2em">
-            Search Results for{" "}
-            <span style={{ color: "#e15b5b" }}>{router.query.term}..</span>
-         </h1>
-         {searchResult.length === 0 && (
-            <div className={styles.noResult}>
-               {"<>"}　no users..😢 {"</>"}
-            </div>
-         )}
-         <ul className={styles.searchUserList}>
-            {searchResult.map((search) => (
-               <UserCard key={search.id} user={search.attributes} />
-            ))}
-         </ul>
-      </Layout>
+      console.log("searchResult ::", searchResult),
+      (
+         <Layout title="Search Results">
+            <Link href="/users">
+               <a className={styles.goback}>go back</a>
+            </Link>
+            <h1 className="title m2em">
+               Search Results for{" "}
+               <span style={{ color: "#e15b5b" }}>{router.query.term}..</span>
+            </h1>
+            {searchResult.length === 0 && (
+               <div className={styles.noResult}>
+                  {"<>"}　no users..😢 {"</>"}
+               </div>
+            )}
+            <ul className={styles.searchUserList}>
+               {searchResult.map((search) => (
+                  <UserCard
+                     key={search.id}
+                     user={search.attributes}
+                     userID={search.id}
+                  />
+               ))}
+            </ul>
+         </Layout>
+      )
    );
 }
 

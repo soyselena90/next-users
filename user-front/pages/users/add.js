@@ -23,7 +23,6 @@ export default function addUser() {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-
       // validation empty fields
       const hasEmptyFields = Object.values(values).some(
          (element) => element === ""
@@ -33,19 +32,28 @@ export default function addUser() {
          toast.error("Please fill in all fields");
       }
 
-      const response = await axios.post(`${API_URL}/getusers`, {
-         data: { ...values },
-      });
+      await axios
+         .post(`${API_URL}/getusers`, {
+            data: { ...values },
+         })
+         .then((response) => {
+            console.log(response);
 
-      if (response.status !== 200) {
-         if (response.status === 403 || response.status === 401) {
-            toast.error("No token included");
-            return;
-         }
-         toast.error("Something Went Wrong");
-      } else {
-         router.push(`/users`);
-      }
+            if (response.status !== 200) {
+               if (response.status === 403 || response.status === 401) {
+                  toast.error("No token included");
+                  return;
+               }
+               toast.error("Something Went Wrong");
+               console.log("실패", values);
+            } else {
+               router.push(`/users`);
+               console.log("성공", values);
+            }
+         })
+         .catch((error) => {
+            console.log("error: ", error.response);
+         });
    };
 
    const handleInputChange = (e) => {

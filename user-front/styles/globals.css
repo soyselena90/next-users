@@ -140,6 +140,10 @@ button {
    margin: 0;
    cursor: pointer;
 }
+a {
+   color: #000;
+}
+
 .container {
    margin: 0 auto;
    width: 80rem;
@@ -147,6 +151,21 @@ button {
 .flex-center {
    display: flex;
    justify-content: center;
+   align-items: center;
+}
+.flex-between {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.flex-end {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+}
+.flex-start {
+   display: flex;
+   justify-content: flex-start;
    align-items: center;
 }
 .min-height {
@@ -157,6 +176,11 @@ button {
    font-weight: bold;
    font-style: italic;
    text-align: center;
+}
+.subTitle {
+   font-size: 3em;
+   line-height: 1.5;
+   font-weight: 600;
 }
 .m2em {
    margin: 2em 0;
@@ -225,16 +249,21 @@ button {
 .user_button {
    margin-top: 1em;
 }
-.user_button a {
+.user_button a,
+.user_button button {
    padding: 0.5em 1em;
    margin-left: 0.5em;
    background-color: rgb(252, 112, 112);
    text-transform: uppercase;
    transform: 0.7s ease;
    color: #fff;
+   display: inline-block;
    cursor: pointer;
 }
-.user_button button:hover {
+.user_button .buttonAll {
+   background-color: rgb(20, 19, 19);
+}
+.user_button a:hover {
    opacity: 0.8;
 }
 
@@ -269,4 +298,8 @@ button {
 }
 .right {
    text-align: right;
+   display: block;
+}
+.padding-bottom5m {
+   padding-bottom: 5em;
 }

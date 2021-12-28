@@ -35,3 +35,19 @@
    background-color: rgb(233, 165, 148);
    color: #fff;
 }
+.userWrap {
+   display: flex;
+   align-items: center;
+}
+.userWrap p {
+   margin-right: 1em;
+   font-style: italic;
+   font-weight: bold;
+}
+.userWrap button {
+   border: 1px solid rgb(78, 35, 23);
+   color: rgb(128, 51, 32);
+   font-size: 0.9em;
+   padding: 0.5em;
+   transition: 0.5s ease;
+}

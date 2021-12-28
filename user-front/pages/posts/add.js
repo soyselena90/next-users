@@ -17,7 +17,6 @@ export default function AddPost() {
    };
 
    const handleOnChange = (e) => {
-      console.log("change");
       const { name, value } = e.target;
       setValues({
          ...values,
@@ -62,7 +61,7 @@ export default function AddPost() {
                      id="body"
                      value={values.body}
                      onChange={handleOnChange}
-                  ></textarea>
+                  />
                </div>
             </form>
          </div>

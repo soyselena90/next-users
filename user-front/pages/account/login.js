@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import Layout from "@/components/Layout";
-import { toast, ToastContainer } from "react-toastify";
 import AuthContext from "context/AuthContext";
 
 export default function LoginPage() {

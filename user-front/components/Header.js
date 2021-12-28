@@ -4,7 +4,7 @@ import { useContext } from "react";
 import AuthContext from "context/AuthContext";
 
 export default function Header() {
-   const { user } = useContext(AuthContext);
+   const { user, logout } = useContext(AuthContext);
 
    return (
       <header className={styles.header}>
@@ -18,8 +18,8 @@ export default function Header() {
                <nav className={styles.nav}>
                   <ul>
                      <li>
-                        {/* <Link href={`/posts/${selected}`}> */}
-                        <Link href="/posts">
+                        <Link href={`/posts/${user.id}`}>
+                           {/* <Link href="/posts"> */}
                            <a className={styles.navList}>Posts</a>
                         </Link>
                      </li>
@@ -35,8 +35,8 @@ export default function Header() {
                      </li>
                   </ul>
                </nav>
-               <div>
-                  <p>Hello, {user.username}</p>
+               <div className={styles.userWrap}>
+                  <p>{user.attributes.username}</p>
                   <button onClick={() => logout()}>logout</button>
                </div>
             </>
