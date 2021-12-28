@@ -6,20 +6,18 @@ import { useState } from "react/cjs/react.development";
 import CommonButton from "./CommonButton";
 import { useContext } from "react";
 import AuthContext from "context/AuthContext";
+import { useRouter } from "next/router";
 
 export default function UserCard({ user, userID }) {
    const [showModal, setShowModal] = useState(false);
    const { delUser } = useContext(AuthContext);
+   const router = useRouter();
 
-   // const delUser = async () => {
-   //    const response = await axios.delete(`${API_URL}/getusers/${userID}`);
-   //    const deleteItem = response.data.data;
-   //    if (response.status !== 200) {
-   //       toast.error(deleteItem);
-   //    } else {
-   //       router.push("/users");
-   //    }
-   // };
+   const deleteUser = () => {
+      delUser(userID);
+      setShowModal(false);
+      router.push("/users");
+   };
 
    return (
       <>
@@ -52,7 +50,7 @@ export default function UserCard({ user, userID }) {
             <CommonButton
                type="button"
                classType="delete"
-               executor={(userID) => delUser}
+               executor={deleteUser}
                content="OK"
             />
             <CommonButton

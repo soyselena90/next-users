@@ -31,13 +31,12 @@ export const AuthProvider = ({ children }) => {
    };
 
    const delUser = async (id) => {
+      console.log("삭제되었다. ::", id);
       const response = await axios.delete(`${API_URL}/getusers/${id}`);
       const deleteItem = response.data.data;
       if (response.status !== 200) {
          toast.error(deleteItem);
       }
-      console.log("userID ::", id);
-      console.log("삭제되었다. ::", id);
    };
 
    return (

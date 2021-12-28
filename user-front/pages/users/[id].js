@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useContext, useEffect } from "react";
 import AuthContext from "context/AuthContext";
+import { useState } from "react/cjs/react.development";
+import Modal from "@/components/Modal";
+import CommonButton from "@/components/CommonButton";
 
 export default function SelectUser({ select, select: { attributes } }) {
    // csr
@@ -22,7 +25,8 @@ export default function SelectUser({ select, select: { attributes } }) {
    //    });
    // }, []);
 
-   const { login } = useContext(AuthContext);
+   const { login, delUser } = useContext(AuthContext);
+   const [showModal, setShowModal] = useState(false);
 
    useEffect(() => {
       login(select);
@@ -39,54 +43,85 @@ export default function SelectUser({ select, select: { attributes } }) {
       "company",
    ];
    const router = useRouter();
-   const delUser = async () => {
-      if (confirm("Are you sure?")) {
-         const response = await axios.delete(
-            `${API_URL}/getusers/${select.id}`
-         );
-         const deleteItem = response.data.data;
-         if (response.status !== 200) {
-            toast.error(deleteItem);
-         } else {
-            router.push("/users");
-         }
-      }
+   // const delUser = async () => {
+   //    if (confirm("Are you sure?")) {
+   //       const response = await axios.delete(
+   //          `${API_URL}/getusers/${select.id}`
+   //       );
+   //       const deleteItem = response.data.data;
+   //       if (response.status !== 200) {
+   //          toast.error(deleteItem);
+   //       } else {
+   //          router.push("/users");
+   //       }
+   //    }
+   // };
+
+   const deleteUser = () => {
+      delUser(select.id);
+      setShowModal(false);
+      router.push("/users");
    };
+
    return (
-      // <Layout title={username}>
-      <Layout title={attributes.username}>
-         <div className="min-height">
-            <h1 className="title m2em">{attributes.username}</h1>
-            <div className={styles.details}>
-               <div>
-                  <p className={styles.icon}>{attributes.icon}</p>
-               </div>
-               <div className="flex-center">
-                  <div className="category">
-                     {category.map((item, index) => (
-                        <p key={index}>{item}</p>
-                     ))}
+      console.log("userid", select.id),
+      console.log("userid", select),
+      (
+         <>
+            <Layout title={attributes.username}>
+               <div className="min-height">
+                  <h1 className="title m2em">{attributes.username}</h1>
+                  <div className={styles.details}>
+                     <div>
+                        <p className={styles.icon}>{attributes.icon}</p>
+                     </div>
+                     <div className="flex-center">
+                        <div className="category">
+                           {category.map((item, index) => (
+                              <p key={index}>{item}</p>
+                           ))}
+                        </div>
+                        <div>
+                           <p>{select.id}</p>
+                           <p>{attributes.name}</p>
+                           <p>{attributes.username}</p>
+                           <p>{attributes.email}</p>
+                           <p>{attributes.address}</p>
+                           <p>{attributes.phone}</p>
+                           <p>{attributes.website}</p>
+                           <p>{attributes.company}</p>
+                        </div>
+                     </div>
                   </div>
-                  <div>
-                     <p>{select.id}</p>
-                     <p>{attributes.name}</p>
-                     <p>{attributes.username}</p>
-                     <p>{attributes.email}</p>
-                     <p>{attributes.address}</p>
-                     <p>{attributes.phone}</p>
-                     <p>{attributes.website}</p>
-                     <p>{attributes.company}</p>
+                  <div className="user_button detail_button">
+                     <Link href={`/users/edit/${select.id}`}>
+                        <a>edit</a>
+                     </Link>
+                     <button onClick={() => setShowModal(true)}>delete</button>
                   </div>
                </div>
-            </div>
-            <div className="user_button detail_button">
-               <Link href={`/users/edit/${select.id}`}>
-                  <a>edit</a>
-               </Link>
-               <a onClick={delUser}>delete</a>
-            </div>
-         </div>
-      </Layout>
+            </Layout>
+            <Modal
+               onClose={() => setShowModal(false)}
+               show={showModal}
+               title="User Delete"
+            >
+               <p>Are you sure to delete the user {attributes.username}?</p>
+               <CommonButton
+                  type="button"
+                  classType="delete"
+                  executor={deleteUser}
+                  content="OK"
+               />
+               <CommonButton
+                  type="button"
+                  classType="delete"
+                  executor={() => setShowModal(false)}
+                  content="CANCEL"
+               />
+            </Modal>
+         </>
+      )
    );
 }
 
