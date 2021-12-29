@@ -1,4 +1,4 @@
-.delete {
+.modal_delete {
    background-color: tomato;
    color: #fff;
    padding: 0.2em 1em;
@@ -6,4 +6,38 @@
    line-height: 1.25;
    margin-top: 1.5em;
    margin-right: 0.3em;
+}
+.btn_delete {
+   text-align: center;
+   padding: 0.5em 1em;
+   margin-left: 0.5em;
+   background-color: rgb(252, 112, 112);
+   text-transform: uppercase;
+   transform: 0.7s ease;
+   color: #fff;
+   display: block;
+   font-size: 1em;
+   line-height: 1.25;
+}
+.btn_ok {
+   text-align: center;
+   padding: 0.5em 1em;
+   margin-left: 0.5em;
+   background-color: rgb(17, 14, 14);
+   text-transform: uppercase;
+   transform: 0.7s ease;
+   color: #fff;
+   display: block;
+   font-size: 1.2em;
+   line-height: 1.25;
+}
+.btn_post {
+   display: block;
+   cursor: pointer;
+   background: rgb(18, 114, 114);
+   color: #fff;
+   text-transform: uppercase;
+   margin-left: 1em;
+   padding: 0.8em;
+   transition: 0.5s;
 }

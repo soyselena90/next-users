@@ -21,11 +21,14 @@
 .postBox input {
    font-size: 1.2em;
    line-height: 1.5;
+   border: 2px solid #1db951;
 }
 .postBox label {
    margin-bottom: 0.5em;
 }
-.inputWrap textarea {
+.postBox textarea {
+   border: 2px solid #03501d;
+   border-radius: 4px;
 }
 .nonChange {
    border: none;

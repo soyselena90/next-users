@@ -27,6 +27,7 @@ export default function SelectUser({ select, select: { attributes } }) {
 
    const { login, delUser } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
+   const [deleted, setDeleted] = useState(false);
 
    useEffect(() => {
       login(select);
@@ -59,69 +60,93 @@ export default function SelectUser({ select, select: { attributes } }) {
 
    const deleteUser = () => {
       delUser(select.id);
+      setDeleted(true);
+   };
+   const confirmDeleted = () => {
       setShowModal(false);
       router.push("/users");
    };
 
    return (
-      console.log("userid", select.id),
-      console.log("userid", select),
-      (
-         <>
-            <Layout title={attributes.username}>
-               <div className="min-height">
-                  <h1 className="title m2em">{attributes.username}</h1>
-                  <div className={styles.details}>
-                     <div>
-                        <p className={styles.icon}>{attributes.icon}</p>
-                     </div>
-                     <div className="flex-center">
-                        <div className="category">
-                           {category.map((item, index) => (
-                              <p key={index}>{item}</p>
-                           ))}
-                        </div>
-                        <div>
-                           <p>{select.id}</p>
-                           <p>{attributes.name}</p>
-                           <p>{attributes.username}</p>
-                           <p>{attributes.email}</p>
-                           <p>{attributes.address}</p>
-                           <p>{attributes.phone}</p>
-                           <p>{attributes.website}</p>
-                           <p>{attributes.company}</p>
-                        </div>
-                     </div>
+      <>
+         <Layout title={attributes.username}>
+            <div className="min-height">
+               <h1 className="title m2em">{attributes.username}</h1>
+               <div className={styles.details}>
+                  <div>
+                     <p className={styles.icon}>{attributes.icon}</p>
                   </div>
-                  <div className="user_button detail_button">
-                     <Link href={`/users/edit/${select.id}`}>
-                        <a>edit</a>
-                     </Link>
-                     <button onClick={() => setShowModal(true)}>delete</button>
+                  <div className="flex-center">
+                     <div className="category">
+                        {category.map((item, index) => (
+                           <p key={index}>{item}</p>
+                        ))}
+                     </div>
+                     <div>
+                        <p>{select.id}</p>
+                        <p>{attributes.name}</p>
+                        <p>{attributes.username}</p>
+                        <p>{attributes.email}</p>
+                        <p>{attributes.address}</p>
+                        <p>{attributes.phone}</p>
+                        <p>{attributes.website}</p>
+                        <p>{attributes.company}</p>
+                     </div>
                   </div>
                </div>
-            </Layout>
-            <Modal
-               onClose={() => setShowModal(false)}
-               show={showModal}
-               title="User Delete"
-            >
-               <p>Are you sure to delete the user {attributes.username}?</p>
-               <CommonButton
-                  type="button"
-                  classType="delete"
-                  executor={deleteUser}
-                  content="OK"
-               />
-               <CommonButton
-                  type="button"
-                  classType="delete"
-                  executor={() => setShowModal(false)}
-                  content="CANCEL"
-               />
-            </Modal>
-         </>
-      )
+               <div className="user_button flex-center">
+                  <Link href={`/users/edit/${select.id}`}>
+                     <a className="user_button_detail">edit</a>
+                  </Link>
+                  <CommonButton
+                     type="button"
+                     classType="btn_delete"
+                     executor={() => setShowModal(true)}
+                  >
+                     delete
+                  </CommonButton>
+               </div>
+            </div>
+         </Layout>
+         <Modal
+            onClose={() => setShowModal(false)}
+            show={showModal}
+            title="User Delete"
+         >
+            {!deleted ? (
+               <>
+                  <p>Are you sure to delete the user {attributes.username}?</p>
+                  <div className="flex-center">
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={deleteUser}
+                     >
+                        OK
+                     </CommonButton>
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={() => setShowModal(false)}
+                     >
+                        CANCEL
+                     </CommonButton>
+                  </div>
+               </>
+            ) : (
+               <>
+                  <p>{attributes.username} has been deleted..😢</p>
+                  <CommonButton
+                     type="button"
+                     classType="modal_delete"
+                     executor={() => confirmDeleted()}
+                  >
+                     OK
+                  </CommonButton>
+               </>
+            )}
+         </Modal>
+      </>
    );
 }
 

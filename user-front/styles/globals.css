@@ -170,6 +170,7 @@ a {
 }
 .min-height {
    min-height: 80vh;
+   padding-bottom: 10em;
 }
 .title {
    font-size: 5em;
@@ -249,16 +250,17 @@ a {
 .user_button {
    margin-top: 1em;
 }
-.user_button a,
-.user_button button {
+.user_button a {
+   text-align: center;
    padding: 0.5em 1em;
    margin-left: 0.5em;
    background-color: rgb(252, 112, 112);
    text-transform: uppercase;
    transform: 0.7s ease;
    color: #fff;
-   display: inline-block;
    cursor: pointer;
+   font-size: 1em;
+   line-height: 1.25;
 }
 .user_button .buttonAll {
    background-color: rgb(20, 19, 19);
@@ -270,11 +272,6 @@ a {
 .detail_button {
    text-align: center;
    margin-top: 8em;
-}
-
-.detail_button button {
-   padding: 1em 2em;
-   font-weight: bold;
 }
 
 /* No infomation */

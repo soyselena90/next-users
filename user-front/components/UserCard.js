@@ -1,24 +1,27 @@
 import Link from "next/link";
+import Modal from "./Modal";
+import { useRouter } from "next/router";
+import CommonButton from "./CommonButton";
+import { useState, useContext } from "react";
+import AuthContext from "context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "@/styles/UserCard.module.css";
-import Modal from "./Modal";
-import { useState } from "react/cjs/react.development";
-import CommonButton from "./CommonButton";
-import { useContext } from "react";
-import AuthContext from "context/AuthContext";
-import { useRouter } from "next/router";
 
 export default function UserCard({ user, userID }) {
    const [showModal, setShowModal] = useState(false);
-   const { delUser } = useContext(AuthContext);
+   const [deleted, setDeleted] = useState(false);
+   const { deleteItem } = useContext(AuthContext);
    const router = useRouter();
 
    const deleteUser = () => {
-      delUser(userID);
+      deleteItem("getusers", userID);
+      setDeleted(true);
+   };
+
+   const confirmDeleted = () => {
       setShowModal(false);
       router.push("/users");
    };
-
    return (
       <>
          <li className={styles.usercard}>
@@ -34,11 +37,17 @@ export default function UserCard({ user, userID }) {
                   </div>
                </a>
             </Link>
-            <div className="user_button">
+            <div className="user_button flex-center">
                <Link href={`/users/edit/${userID}`}>
                   <a>Edit</a>
                </Link>
-               <a onClick={() => setShowModal(true)}>delete</a>
+               <CommonButton
+                  type="button"
+                  classType="btn_delete"
+                  executor={() => setShowModal(true)}
+               >
+                  Delete
+               </CommonButton>
             </div>
          </li>
          <Modal
@@ -46,19 +55,38 @@ export default function UserCard({ user, userID }) {
             show={showModal}
             title="User Delete"
          >
-            <p>Are you sure to delete the user {user.username}?</p>
-            <CommonButton
-               type="button"
-               classType="delete"
-               executor={deleteUser}
-               content="OK"
-            />
-            <CommonButton
-               type="button"
-               classType="delete"
-               executor={() => setShowModal(false)}
-               content="CANCEL"
-            />
+            {!deleted ? (
+               <>
+                  <p>Are you sure to delete the user {user.username}?</p>
+                  <div className="flex-center">
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={deleteUser}
+                     >
+                        OK
+                     </CommonButton>
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={() => setShowModal(false)}
+                     >
+                        CANCEL
+                     </CommonButton>
+                  </div>
+               </>
+            ) : (
+               <>
+                  <p>{user.username} has been deleted..😢</p>
+                  <CommonButton
+                     type="button"
+                     classType="modal_delete"
+                     executor={() => confirmDeleted()}
+                  >
+                     OK
+                  </CommonButton>
+               </>
+            )}
          </Modal>
       </>
    );

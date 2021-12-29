@@ -22,7 +22,7 @@
    justify-content: flex-end;
    align-items: center;
 }
-.postButton button {
+/* .postButton button {
    display: block;
    cursor: pointer;
    background: rgb(18, 114, 114);
@@ -31,7 +31,7 @@
    margin-left: 1em;
    padding: 0.8em;
    transition: 0.5s;
-}
+} */
 .postButton a:hover {
    opacity: 0.85;
 }

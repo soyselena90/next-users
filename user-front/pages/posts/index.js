@@ -30,12 +30,21 @@ export default function Posts({ posts, page, total }) {
                      <div>
                         <h1 className="title m2em">List of Posts</h1>
                         <p className="center">username</p>
-                        <h3 className="center subTitle">
+                        <h3
+                           className="center subTitle"
+                           style={{
+                              color: "rgb(23 144 101)",
+                              marginLeft: "0.3em",
+                              textTransform: "uppercase",
+                           }}
+                        >
                            {user?.attributes.username}
                         </h3>
-                        <Link href={`/posts/${user.id}`}>
-                           <a className="right">See My Posts</a>
-                        </Link>
+                        <div className="user_button right">
+                           <Link href={`/posts/${user.id}`}>
+                              <a>See My Posts</a>
+                           </Link>
+                        </div>
 
                         <Modal
                            onClose={() => setShowModal(false)}
@@ -66,7 +75,6 @@ export default function Posts({ posts, page, total }) {
 }
 
 export async function getServerSideProps({ query: { page = 1 } }) {
-   const qs = require("qs");
    const query = qs.stringify(
       {
          sort: ["id:desc"],
@@ -86,6 +94,7 @@ export async function getServerSideProps({ query: { page = 1 } }) {
    );
    // const response = await axios.get(`${API_URL}/posts`);
    const posts = response.data.data;
+
    return {
       props: { posts: posts, page: +page, total },
    };

@@ -1,38 +1,34 @@
 import axios from "axios";
+import Modal from "./Modal";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { API_URL } from "@/config/index";
-import styles from "@/styles/PostCard.module.css";
-import { useEffect, useState } from "react";
-import Modal from "./Modal";
-import { useContext } from "react";
+import CommonButton from "./CommonButton";
 import AuthContext from "context/AuthContext";
+import styles from "@/styles/PostCard.module.css";
+import { useEffect, useState, useContext } from "react";
+import CommentCard from "./CommentCard";
 
-export default function PostCard({ post, postID, comments }) {
-   const { user } = useContext(AuthContext);
-   const [postUser, setPostUser] = useState(null);
+export default function PostCard({ post, postID }) {
+   const { user, setUser, deleteItem } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
+   const [deleted, setDeleted] = useState(false);
    const [showComments, setShowComments] = useState(false);
+   const [comments, setComments] = useState(false);
+   const postIdUser = post.userId == user?.id;
    const router = useRouter();
-   const delPost = async () => {
-      if (post.userId == user.id) {
-         if (confirm("Do you want to delete the post?")) {
-            const response = await axios.delete(`${API_URL}/posts/${postID}`);
-            const post = response.data.data;
-            if (response.status !== 200) {
-               toast.error(post);
-            } else {
-               console.log("삭제 되었다");
-               router.push(`/posts`);
-            }
-         }
-      } else {
-         setShowModal(true);
-      }
+
+   const delPost = () => {
+      deleteItem("posts", postID);
+      setDeleted(true);
+   };
+   const confirmDeleted = () => {
+      setShowModal(false);
+      router.push("/posts");
    };
 
    const handleEdit = () => {
-      if (post.userId == user.id) {
+      if (postIdUser) {
          router.push(`/posts/edit/${postID}`);
       } else {
          setShowModal(true);
@@ -40,21 +36,27 @@ export default function PostCard({ post, postID, comments }) {
    };
 
    useEffect(() => {
+      if (user) {
+         axios
+            .get(`${API_URL}/getusers/${post.userId}`) //
+            .then((res) => {
+               setUser(res.data.data);
+            })
+            .catch((err) => console.log("user error : ", err));
+      }
+
       axios
-         .get(`${API_URL}/getusers/${post.userId}`) //
-         .then((res) => {
-            setPostUser(res.data.data);
-         })
-         .catch((err) => console.log("error : ", err));
+         .get(`${API_URL}/comments?fliters[postId]=${user?.id}`)
+         .then((res) => setComments(res.data.data))
+         .catch((err) => console.log("comment error :", err));
    }, []);
 
    return (
-      // console.log("comment", comments),
       <>
          <li className={styles.post}>
             <div className={styles.postWrap}>
                <p>
-                  {postUser?.attributes.username}
+                  {user?.attributes.username}
                   <span> ({post.userId}) </span>
                </p>
                <p>{postID}</p>
@@ -62,36 +64,90 @@ export default function PostCard({ post, postID, comments }) {
                <p>{post.body}</p>
             </div>
             <div className={styles.postButton}>
-               <button onClick={() => setShowComments(!showComments)}>
-                  comments
-               </button>
-               <button onClick={handleEdit}>edit</button>
-               <button onClick={delPost}>delete</button>
+               <CommonButton
+                  type="button"
+                  classType="btn_post"
+                  executor={() => setShowComments(!showComments)}
+               >
+                  COMMENTS
+               </CommonButton>
+               <CommonButton
+                  type="button"
+                  classType="btn_post"
+                  executor={() => handleEdit()}
+               >
+                  edit
+               </CommonButton>
+               <CommonButton
+                  type="button"
+                  classType="btn_post"
+                  executor={() => setShowModal(true)}
+               >
+                  delete
+               </CommonButton>
             </div>
             {showComments && (
                <ul>
-                  <li>comment</li>
+                  {comments.map((comment) => (
+                     <CommentCard
+                        comment={comment.attributes}
+                        commetID={comment.id}
+                     />
+                  ))}
                </ul>
             )}
          </li>
          <Modal
             onClose={() => setShowModal(false)}
             show={showModal}
-            title={`You are not ${postUser?.attributes.username}`}
-         />
+            title={
+               postIdUser ? "Delete The Post😫" : "Can not delete the post😡"
+            }
+         >
+            {!postIdUser ? (
+               <>
+                  <p>The post is not yours.</p>
+                  <CommonButton
+                     type="button"
+                     classType="modal_delete"
+                     executor={() => setShowModal(false)}
+                  >
+                     ok
+                  </CommonButton>
+               </>
+            ) : !deleted ? (
+               <>
+                  <p>Are you really sure the post delete?</p>
+                  <div className="flex-center">
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={() => delPost()}
+                     >
+                        OK
+                     </CommonButton>
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={() => setShowModal(false)}
+                     >
+                        cancel
+                     </CommonButton>
+                  </div>
+               </>
+            ) : (
+               <>
+                  <p>The post has been deleted.</p>
+                  <CommonButton
+                     type="button"
+                     classType="modal_delete"
+                     executor={() => confirmDeleted()}
+                  >
+                     ok
+                  </CommonButton>
+               </>
+            )}
+         </Modal>
       </>
    );
-}
-
-export async function getServerSideProps(context) {
-   const { id } = context.query;
-   const response = await axios.get(
-      `${API_URL}/comments?filters[postId]=${id}`
-   );
-   const comments = response.data.data;
-   return {
-      props: {
-         comments,
-      },
-   };
 }

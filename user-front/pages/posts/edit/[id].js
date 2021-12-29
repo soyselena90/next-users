@@ -9,9 +9,12 @@ import { useContext, useState } from "react";
 import styles from "@/styles/AddPosts.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import Modal from "@/components/Modal";
+import CommonButton from "@/components/CommonButton";
 
 export default function PostEditPage({ post, post: { attributes } }) {
    const { user } = useContext(AuthContext);
+   const [showModal, setShowModal] = useState(false);
    const router = useRouter();
    const [values, setValues] = useState({
       userId: attributes.userId,
@@ -29,21 +32,21 @@ export default function PostEditPage({ post, post: { attributes } }) {
       );
       if (hasEmptyFields) {
          toast.error("fill the form!!!");
+      } else {
+         await axios
+            .put(`${API_URL}/posts/${post.id}`, {
+               data: { ...values },
+            })
+            .then((response) => {
+               if (response.status !== 200) {
+                  console.log("실패", response);
+               } else {
+                  console.log("성공", response);
+                  setShowModal(true);
+               }
+            })
+            .catch((err) => console.log("error :", err));
       }
-
-      await axios
-         .put(`${API_URL}/posts/${post.id}`, {
-            data: { ...values },
-         })
-         .then((response) => {
-            if (response.status !== 200) {
-               console.log("실패", response);
-            } else {
-               console.log("성공", response);
-               router.push(`/posts/${user.id}`);
-            }
-         })
-         .catch((err) => console.log("error :", err));
    };
    const handleOnChange = (e) => {
       const { name, value } = e.target;
@@ -51,6 +54,11 @@ export default function PostEditPage({ post, post: { attributes } }) {
          ...values,
          [name]: value,
       });
+   };
+   const handleEditPost = () => {
+      setShowModal(false);
+      console.log("move");
+      router.push(`/posts/${user.id}`);
    };
 
    return (
@@ -112,11 +120,27 @@ export default function PostEditPage({ post, post: { attributes } }) {
                            onChange={handleOnChange}
                         ></textarea>
                      </div>
-                     <div className="user_button center">
-                        <button type="submit">Edit POST</button>
+                     <div className="user_button flex-center">
+                        <CommonButton type="submit" classType="btn_ok">
+                           edit post
+                        </CommonButton>
                      </div>
                   </form>
                </div>
+               <Modal
+                  onClose={() => setShowModal(false)}
+                  show={showModal}
+                  title="Post Edit"
+               >
+                  <p>The information was updated successfully!</p>
+                  <CommonButton
+                     type="button"
+                     classType="btn_ok"
+                     executor={() => handleEditPost()}
+                  >
+                     OK
+                  </CommonButton>
+               </Modal>
             </>
          ) : (
             <NoUser content="User" />

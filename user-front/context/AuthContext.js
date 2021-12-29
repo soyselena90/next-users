@@ -30,18 +30,18 @@ export const AuthProvider = ({ children }) => {
       return;
    };
 
-   const delUser = async (id) => {
+   const deleteItem = async (method, id) => {
       console.log("삭제되었다. ::", id);
-      const response = await axios.delete(`${API_URL}/getusers/${id}`);
-      const deleteItem = response.data.data;
+      const response = await axios.delete(`${API_URL}/${method}/${id}`);
+      const delItem = response.data.data;
       if (response.status !== 200) {
-         toast.error(deleteItem);
+         toast.error(delItem);
       }
    };
 
    return (
       <AuthContext.Provider
-         value={{ error, user, setUser, login, logout, delUser }}
+         value={{ error, user, setUser, login, logout, deleteItem }}
       >
          {children}
       </AuthContext.Provider>

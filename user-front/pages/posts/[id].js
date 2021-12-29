@@ -30,9 +30,20 @@ export default function PostList({ posts, id }) {
          <div className="min-height">
             <h1 className="title m2em">
                Posts of
-               <span>{user?.attributes.username}</span>
+               <span
+                  style={{
+                     color: "#ed2828",
+                     marginLeft: "0.3em",
+                     textTransform: "uppercase",
+                  }}
+               >
+                  {user?.attributes.username}
+               </span>
             </h1>
             <div className="user_button right">
+               <Link href="/posts">
+                  <a className="buttonAll">All posts</a>
+               </Link>
                <Link href={`/posts/add/${user?.id}`}>
                   <a>add post</a>
                </Link>
@@ -47,11 +58,6 @@ export default function PostList({ posts, id }) {
                ))}
             </ul>
             {posts.length === 0 && <NoUser content="Post" />}
-            <div className="user_button center m2em">
-               <Link href="/posts">
-                  <a className="buttonAll">All posts</a>
-               </Link>
-            </div>
          </div>
       </Layout>
    );
