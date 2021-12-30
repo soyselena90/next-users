@@ -1,7 +1,8 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import styles from "@/styles/AddPosts.module.css";
 
 export default function AddPost() {

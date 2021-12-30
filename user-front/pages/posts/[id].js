@@ -23,10 +23,10 @@ export default function PostList({ posts, id }) {
             console.log("error :", err);
             router.push("/404");
          });
-   }, []);
+   }, [id]);
 
    return (
-      <Layout>
+      <Layout title={`${user?.attributes.name} posts page`}>
          <div className="min-height">
             <h1 className="title m2em">
                Posts of

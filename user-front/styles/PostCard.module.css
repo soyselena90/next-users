@@ -39,3 +39,40 @@
 .postWrap {
    color: #000;
 }
+
+.commentWrap {
+   border: 2px solid rgb(200, 221, 207);
+   padding: 1em;
+   margin-top: 1em;
+}
+.commentBox {
+   border-top: 1px solid rgb(167, 187, 171);
+   margin-top: 1em;
+   padding-top: 0.5em;
+}
+.commentUser .commentInputWrap {
+   display: inline-block;
+   margin-right: 0.5em;
+   font-size: 0.9em;
+   line-height: 1.25;
+}
+.commentInputWrap input {
+   border: none;
+   outline: none;
+   color: rgb(209, 56, 56);
+   font-weight: bold;
+   width: 15em;
+}
+
+.commentBody .commentInputWrap {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+   margin-top: 1em;
+}
+.commentForm label {
+   font-size: 0.8em;
+}
+.commentForm textarea {
+   width: 75%;
+}

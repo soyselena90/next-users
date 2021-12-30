@@ -44,19 +44,6 @@ export default function SelectUser({ select, select: { attributes } }) {
       "company",
    ];
    const router = useRouter();
-   // const delUser = async () => {
-   //    if (confirm("Are you sure?")) {
-   //       const response = await axios.delete(
-   //          `${API_URL}/getusers/${select.id}`
-   //       );
-   //       const deleteItem = response.data.data;
-   //       if (response.status !== 200) {
-   //          toast.error(deleteItem);
-   //       } else {
-   //          router.push("/users");
-   //       }
-   //    }
-   // };
 
    const deleteUser = () => {
       delUser(select.id);

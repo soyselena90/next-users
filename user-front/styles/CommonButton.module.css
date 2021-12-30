@@ -33,11 +33,33 @@
 }
 .btn_post {
    display: block;
-   cursor: pointer;
    background: rgb(18, 114, 114);
    color: #fff;
    text-transform: uppercase;
    margin-left: 1em;
    padding: 0.8em;
    transition: 0.5s;
+}
+.btn_comment {
+   display: block;
+   background: rgb(204, 228, 228);
+   color: rgb(18, 114, 114);
+   text-transform: uppercase;
+   margin-left: 1em;
+   padding: 0.8em;
+   transition: 0.5s;
+   font-weight: bold;
+   border: 2px solid rgb(18, 114, 114);
+   font-size: 0.8em;
+}
+.btn_comment_control {
+   display: block;
+   background: rgb(204, 228, 228);
+   color: rgb(18, 114, 114);
+   text-transform: uppercase;
+   margin-left: 0.5em;
+   padding: 0.3em;
+   transition: 0.5s;
+   font-weight: bold;
+   font-size: 0.8em;
 }

@@ -1,6 +1,7 @@
 import axios from "axios";
 import Modal from "./Modal";
-import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/router";
 import { API_URL } from "@/config/index";
 import CommonButton from "./CommonButton";
@@ -8,9 +9,10 @@ import AuthContext from "context/AuthContext";
 import styles from "@/styles/PostCard.module.css";
 import { useEffect, useState, useContext } from "react";
 import CommentCard from "./CommentCard";
+import AddComment from "./AddComment";
 
 export default function PostCard({ post, postID }) {
-   const { user, setUser, deleteItem } = useContext(AuthContext);
+   const { user, deleteItem } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
    const [deleted, setDeleted] = useState(false);
    const [showComments, setShowComments] = useState(false);
@@ -36,17 +38,8 @@ export default function PostCard({ post, postID }) {
    };
 
    useEffect(() => {
-      if (user) {
-         axios
-            .get(`${API_URL}/getusers/${post.userId}`) //
-            .then((res) => {
-               setUser(res.data.data);
-            })
-            .catch((err) => console.log("user error : ", err));
-      }
-
       axios
-         .get(`${API_URL}/comments?fliters[postId]=${user?.id}`)
+         .get(`${API_URL}/comments?filters[postId]=${postID}`)
          .then((res) => setComments(res.data.data))
          .catch((err) => console.log("comment error :", err));
    }, []);
@@ -54,6 +47,7 @@ export default function PostCard({ post, postID }) {
    return (
       <>
          <li className={styles.post}>
+            <ToastContainer />
             <div className={styles.postWrap}>
                <p>
                   {user?.attributes.username}
@@ -87,14 +81,30 @@ export default function PostCard({ post, postID }) {
                </CommonButton>
             </div>
             {showComments && (
-               <ul>
-                  {comments.map((comment) => (
-                     <CommentCard
-                        comment={comment.attributes}
-                        commetID={comment.id}
+               <>
+                  <ul className={styles.commentWrap}>
+                     {comments.length !== 0 ? (
+                        (console.log("comment", comments),
+                        comments?.map((comment) => (
+                           <CommentCard
+                              key={comment.id}
+                              comment={comment.attributes}
+                              comments={comments}
+                              commetID={comment.id}
+                              setComments={setComments}
+                              postID={postID}
+                           />
+                        )))
+                     ) : (
+                        <p className="center">No comments..🙁</p>
+                     )}
+                     <AddComment
+                        postID={postID}
+                        setComments={setComments}
+                        comments={comments}
                      />
-                  ))}
-               </ul>
+                  </ul>
+               </>
             )}
          </li>
          <Modal

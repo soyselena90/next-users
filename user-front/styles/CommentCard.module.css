@@ -1,0 +1,34 @@
+.comment {
+   margin-bottom: 1em;
+}
+.user {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+.user p:first-of-type {
+   margin-right: 1em;
+}
+.user p {
+   font-weight: 600;
+}
+.body {
+   font-size: 0.9em;
+   line-height: 1.2;
+   padding: 0.5em;
+   margin: 0.5em 0;
+   background-color: rgb(241, 240, 240);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+.body p {
+   padding-right: 2.5em;
+}
+.body input {
+   border: none;
+   outline: none;
+   background-color: transparent;
+   font-size: 1em;
+   width: 100%;
+}

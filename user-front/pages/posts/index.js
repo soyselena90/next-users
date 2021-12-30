@@ -10,67 +10,63 @@ import NoUser from "@/components/Nouser";
 import Pagination from "@/components/Pagination";
 import qs from "qs";
 
-export default function Posts({ posts, page, total }) {
+export default function Posts({ posts, page, total, comments }) {
    const [showModal, setShowModal] = useState(false);
    const { user } = useContext(AuthContext);
 
    return (
-      console.log("posts :", posts),
-      console.log("total :", total),
-      console.log("page :", page),
-      (
-         <Layout
-            title="All Posts"
-            description="Show All Posts"
-            keywords="jsonplaceholder Post list"
-         >
-            {user ? (
-               <>
-                  <div className="min-height flex-center">
-                     <div>
-                        <h1 className="title m2em">List of Posts</h1>
-                        <p className="center">username</p>
-                        <h3
-                           className="center subTitle"
-                           style={{
-                              color: "rgb(23 144 101)",
-                              marginLeft: "0.3em",
-                              textTransform: "uppercase",
-                           }}
-                        >
-                           {user?.attributes.username}
-                        </h3>
-                        <div className="user_button right">
-                           <Link href={`/posts/${user.id}`}>
-                              <a>See My Posts</a>
-                           </Link>
-                        </div>
-
-                        <Modal
-                           onClose={() => setShowModal(false)}
-                           show={showModal}
-                           title="Posts"
-                        >
-                           Post lists. are you?
-                        </Modal>
-                        <ul>
-                           {posts?.map((post) => (
-                              <PostCard
-                                 key={post.id}
-                                 postID={post.id}
-                                 post={post.attributes}
-                              />
-                           ))}
-                        </ul>
+      <Layout
+         title="All Posts"
+         description="Show All Posts"
+         keywords="jsonplaceholder Post list"
+      >
+         {user ? (
+            <>
+               <div className="min-height flex-center">
+                  <div>
+                     <h1 className="title m2em">List of Posts</h1>
+                     <p className="center">username</p>
+                     <h3
+                        className="center subTitle"
+                        style={{
+                           color: "rgb(23 144 101)",
+                           marginLeft: "0.3em",
+                           textTransform: "uppercase",
+                        }}
+                     >
+                        {user?.attributes.username}
+                     </h3>
+                     <div className="user_button right">
+                        <Link href={`/posts/${user.id}`}>
+                           <a>See My Posts</a>
+                        </Link>
                      </div>
+
+                     <Modal
+                        onClose={() => setShowModal(false)}
+                        show={showModal}
+                        title="Posts"
+                     >
+                        Post lists. are you?
+                     </Modal>
+                     <ul>
+                        {posts?.map((post) => (
+                           <PostCard
+                              key={post.id}
+                              postID={post.id}
+                              post={post.attributes}
+                              comments={comments}
+                           />
+                        ))}
+                     </ul>
                   </div>
-                  <Pagination page={page} total={total} />
-               </>
-            ) : (
-               <NoUser content="User" />
-            )}
-         </Layout>
-      )
+               </div>
+               <Pagination page={page} total={total} />
+            </>
+         ) : (
+            <NoUser content="User" />
+         )}
+      </Layout>
    );
 }
 
@@ -95,7 +91,9 @@ export async function getServerSideProps({ query: { page = 1 } }) {
    // const response = await axios.get(`${API_URL}/posts`);
    const posts = response.data.data;
 
+   const resComment = await axios.get(`${API_URL}/comments`);
+   const comments = resComment.data.data;
    return {
-      props: { posts: posts, page: +page, total },
+      props: { posts: posts, page: +page, total, comments: comments },
    };
 }
