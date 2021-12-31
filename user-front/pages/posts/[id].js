@@ -9,11 +9,13 @@ import PostCard from "@/components/PostCard";
 import { useContext, useEffect } from "react";
 
 export default function PostList({ posts, id }) {
-   const { user, setUser } = useContext(AuthContext);
+   const { user, setUser, getComments } = useContext(AuthContext);
 
    const router = useRouter();
 
    useEffect(() => {
+      getComments();
+
       axios
          .get(`${API_URL}/getusers/${id}`)
          .then((response) => {

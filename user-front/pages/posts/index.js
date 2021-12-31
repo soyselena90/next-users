@@ -1,18 +1,22 @@
+import qs from "qs";
 import axios from "axios";
+import Link from "next/link";
 import Modal from "@/components/Modal";
-import { API_URL, PER_PAGE } from "@/config/index";
-import { useContext, useState } from "react";
+import NoUser from "@/components/Nouser";
 import Layout from "@/components/Layout";
 import PostCard from "@/components/PostCard";
 import AuthContext from "context/AuthContext";
-import Link from "next/link";
-import NoUser from "@/components/Nouser";
 import Pagination from "@/components/Pagination";
-import qs from "qs";
+import { API_URL, PER_PAGE } from "@/config/index";
+import { useContext, useState, useEffect } from "react";
 
-export default function Posts({ posts, page, total, comments }) {
+export default function Posts({ posts, page, total }) {
    const [showModal, setShowModal] = useState(false);
-   const { user } = useContext(AuthContext);
+   const { user, getComments } = useContext(AuthContext);
+
+   useEffect(() => {
+      getComments();
+   }, []);
 
    return (
       <Layout
@@ -55,7 +59,6 @@ export default function Posts({ posts, page, total, comments }) {
                               key={post.id}
                               postID={post.id}
                               post={post.attributes}
-                              comments={comments}
                            />
                         ))}
                      </ul>
@@ -88,12 +91,9 @@ export async function getServerSideProps({ query: { page = 1 } }) {
    const response = await axios.get(
       `${API_URL}/posts?pagination[start]=${start}&pagination[limit]=${PER_PAGE}&${query}`
    );
-   // const response = await axios.get(`${API_URL}/posts`);
    const posts = response.data.data;
 
-   const resComment = await axios.get(`${API_URL}/comments`);
-   const comments = resComment.data.data;
    return {
-      props: { posts: posts, page: +page, total, comments: comments },
+      props: { posts: posts, page: +page, total },
    };
 }

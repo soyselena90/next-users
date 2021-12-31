@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
+   const [comments, setComments] = useState(null);
    const [error, setError] = useState(null);
    const router = useRouter();
 
@@ -32,11 +33,24 @@ export const AuthProvider = ({ children }) => {
 
    const deleteItem = async (method, id) => {
       console.log("삭제되었다. ::", id);
+
       const response = await axios.delete(`${API_URL}/${method}/${id}`);
       const delItem = response.data.data;
       if (response.status !== 200) {
-         toast.error(delItem);
+         setError(delItem);
       }
+   };
+
+   // comment
+
+   const getComments = async () => {
+      await axios
+         .get(`${API_URL}/comments`)
+         .then((response) => {
+            const commentRes = response.data.data;
+            setComments(commentRes);
+         })
+         .catch((err) => setError(err));
    };
 
    return (
@@ -48,6 +62,9 @@ export const AuthProvider = ({ children }) => {
             login,
             logout,
             deleteItem,
+            getComments,
+            comments,
+            setComments,
          }}
       >
          {children}

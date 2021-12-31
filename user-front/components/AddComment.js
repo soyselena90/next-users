@@ -7,8 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import CommonButton from "./CommonButton";
 
-export default function AddComment({ postID, comments, setComments }) {
-   const { user } = useContext(AuthContext);
+export default function AddComment({ postID }) {
+   const { user, comments, setComments } = useContext(AuthContext);
    const [values, setValues] = useState({
       postId: postID.toString(),
       body: "",
@@ -30,12 +30,8 @@ export default function AddComment({ postID, comments, setComments }) {
                data: { ...values },
             })
             .then((response) => {
-               if (response.status !== 200) {
-                  console.log("실패", response);
-               } else {
-                  console.log("성공", response);
-                  setComments([...comments, response.data.data]);
-               }
+               console.log("성공", response);
+               setComments([...comments, response.data.data]);
             })
             .catch((err) => console.log("comments post error :", err.response));
       }

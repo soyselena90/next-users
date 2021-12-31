@@ -9,14 +9,8 @@ import AuthContext from "context/AuthContext";
 import styles from "@/styles/CommentCard.module.css";
 import CommonButton from "./CommonButton";
 
-export default function CommentCard({
-   comment,
-   comments,
-   commetID,
-   setComments,
-   postID,
-}) {
-   const { user, deleteItem } = useContext(AuthContext);
+export default function CommentCard({ comment, commetID, postID }) {
+   const { user, deleteItem, setComments } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
    const [deleted, setDeleted] = useState(false);
    const [isReadOnly, setIsReadOnly] = useState(true);
@@ -57,7 +51,7 @@ export default function CommentCard({
             .then((res) => {
                console.log("res-comment-edit :", res.data.data);
             })
-            .catch((err) => console.log("Comment delete error :", err));
+            .catch((err) => console.log("Comment edit error :", err));
       }
    };
 

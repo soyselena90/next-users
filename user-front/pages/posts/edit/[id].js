@@ -24,7 +24,6 @@ export default function PostEditPage({ post, post: { attributes } }) {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log("submitt");
 
       //Validation
       const hasEmptyFields = Object.values(values).some(
@@ -38,12 +37,8 @@ export default function PostEditPage({ post, post: { attributes } }) {
                data: { ...values },
             })
             .then((response) => {
-               if (response.status !== 200) {
-                  console.log("실패", response);
-               } else {
-                  console.log("성공", response);
-                  setShowModal(true);
-               }
+               console.log("성공", response);
+               setShowModal(true);
             })
             .catch((err) => console.log("error :", err));
       }
