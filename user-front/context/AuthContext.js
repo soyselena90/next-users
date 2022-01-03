@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       }
    };
 
+   //get todo lists
    const getTodos = async (id) => {
       await axios
          .get(`${API_URL}/todos?filters[userId]=${id}`)
@@ -55,6 +56,16 @@ export const AuthProvider = ({ children }) => {
          .catch((err) => console.log("err", err));
    };
 
+   //get comments lists
+   const getComments = async (id) => {
+      await axios
+         .get(`${API_URL}/comments?filters[postId]=${id}`)
+         .then((res) => {
+            setComments(res.data.data);
+            console.log("setComments", comments);
+         })
+         .catch((err) => console.log("err", err));
+   };
    return (
       <AuthContext.Provider
          value={{
@@ -66,6 +77,7 @@ export const AuthProvider = ({ children }) => {
             deleteItem,
             comments,
             setComments,
+            getComments,
             todos,
             setTodos,
             getTodos,

@@ -9,7 +9,7 @@ import PostCard from "@/components/PostCard";
 import { useContext, useEffect } from "react";
 
 export default function PostList({ posts, id, commentsData }) {
-   const { user, setUser, setComments } = useContext(AuthContext);
+   const { user, setUser, setComments, comments } = useContext(AuthContext);
 
    const router = useRouter();
 
@@ -27,40 +27,43 @@ export default function PostList({ posts, id, commentsData }) {
    }, [id]);
 
    return (
-      <Layout title={`${user?.attributes.name} posts page`}>
-         <div className="min-height">
-            <h1 className="title m2em">
-               Posts of
-               <span
-                  style={{
-                     color: "#ed2828",
-                     marginLeft: "0.3em",
-                     textTransform: "uppercase",
-                  }}
-               >
-                  {user?.attributes.username}
-               </span>
-            </h1>
-            <div className="user_button right">
-               <Link href="/posts">
-                  <a className="buttonAll">All posts</a>
-               </Link>
-               <Link href={`/posts/add/${user?.id}`}>
-                  <a>add post</a>
-               </Link>
+      console.log("post id page:", comments),
+      (
+         <Layout title={`${user?.attributes.name} posts page`}>
+            <div className="min-height">
+               <h1 className="title m2em">
+                  Posts of
+                  <span
+                     style={{
+                        color: "#ed2828",
+                        marginLeft: "0.3em",
+                        textTransform: "uppercase",
+                     }}
+                  >
+                     {user?.attributes.username}
+                  </span>
+               </h1>
+               <div className="user_button right">
+                  <Link href="/posts">
+                     <a className="buttonAll">All posts</a>
+                  </Link>
+                  <Link href={`/posts/add/${user?.id}`}>
+                     <a>add post</a>
+                  </Link>
+               </div>
+               <ul>
+                  {posts?.map((post) => (
+                     <PostCard
+                        key={post.id}
+                        postID={post.id}
+                        post={post.attributes}
+                     />
+                  ))}
+               </ul>
+               {posts.length === 0 && <NoUser content="Post" />}
             </div>
-            <ul>
-               {posts?.map((post) => (
-                  <PostCard
-                     key={post.id}
-                     postID={post.id}
-                     post={post.attributes}
-                  />
-               ))}
-            </ul>
-            {posts.length === 0 && <NoUser content="Post" />}
-         </div>
-      </Layout>
+         </Layout>
+      )
    );
 }
 

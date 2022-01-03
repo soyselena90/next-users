@@ -6,9 +6,12 @@ import styles from "@/styles/PostCard.module.css";
 import { useEffect, useState, useContext } from "react";
 import CommentCard from "./CommentCard";
 import AddComment from "./AddComment";
+import axios from "axios";
+import { API_URL } from "../config";
 
 export default function PostCard({ post, postID }) {
-   const { user, deleteItem, comments } = useContext(AuthContext);
+   const { user, deleteItem, comments, setComments, getComments } =
+      useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
    const [deleted, setDeleted] = useState(false);
    const [showComments, setShowComments] = useState(false);
@@ -32,6 +35,10 @@ export default function PostCard({ post, postID }) {
          setShowModal(true);
       }
    };
+
+   useEffect(() => {
+      getComments();
+   }, []);
 
    useEffect(() => {
       const filterComment = comments?.filter((comment) => {
