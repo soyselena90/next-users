@@ -63,3 +63,30 @@
    font-weight: bold;
    font-size: 0.8em;
 }
+.btn_todos {
+   display: block;
+   background: rgb(243, 142, 142);
+   color: rgb(121, 40, 40);
+   text-transform: uppercase;
+   margin-left: 1em;
+   padding: 0.8em;
+   transition: 0.5s;
+   font-weight: bold;
+   border: 2px solid rgb(187, 39, 39);
+   font-size: 0.8em;
+}
+.todo_check {
+   background-color: rgb(61, 59, 58);
+   color: #fff;
+   font-size: 1em;
+   border-radius: 50%;
+   width: 1.5em;
+   height: 1.5em;
+}
+.todo_isdone {
+   background-color: rgb(221, 127, 127);
+   padding: 0.5em;
+   text-transform: uppercase;
+   color: rgb(110, 11, 11);
+   font-weight: bold;
+}

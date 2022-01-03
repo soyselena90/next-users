@@ -8,14 +8,12 @@ import AuthContext from "context/AuthContext";
 import PostCard from "@/components/PostCard";
 import { useContext, useEffect } from "react";
 
-export default function PostList({ posts, id }) {
-   const { user, setUser, getComments } = useContext(AuthContext);
+export default function PostList({ posts, id, commentsData }) {
+   const { user, setUser, setComments } = useContext(AuthContext);
 
    const router = useRouter();
 
    useEffect(() => {
-      getComments();
-
       axios
          .get(`${API_URL}/getusers/${id}`)
          .then((response) => {
@@ -25,6 +23,7 @@ export default function PostList({ posts, id }) {
             console.log("error :", err);
             router.push("/404");
          });
+      setComments(commentsData);
    }, [id]);
 
    return (
@@ -102,7 +101,10 @@ export async function getServerSideProps(context) {
    const { id } = context.query;
    const resposne = await axios.get(`${API_URL}/posts?filters[userId]=${id}`);
    const posts = resposne.data.data;
+
+   const commentsRes = await axios.get(`${API_URL}/comments`);
+   const commentsData = commentsRes.data.data;
    return {
-      props: { posts, id },
+      props: { posts, id, commentsData },
    };
 }

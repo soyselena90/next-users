@@ -1,0 +1,37 @@
+.todoCheck {
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   margin-bottom: 2em;
+}
+.todoCheck button {
+   padding: 1em;
+}
+.todolistWrap {
+   margin: 0 auto;
+   border: 2px solid rgb(255, 139, 139);
+   border-radius: 2em;
+   min-height: 30em;
+   width: 50em;
+   padding: 2em;
+   margin-bottom: 10em;
+}
+.addTodos {
+   width: 100%;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+.inputWrap input {
+   padding: 0.5em 0;
+   width: 25em;
+   text-indent: 0.3em;
+}
+.noTodoList {
+   text-align: center;
+   font-size: 1.5em;
+   line-height: 1.5;
+   font-style: italic;
+   margin-top: 6.5em;
+}

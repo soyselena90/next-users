@@ -24,9 +24,9 @@ export default function CommentCard({ comment, commetID, postID }) {
       setDeleted(true);
    };
 
-   useEffect(async () => {
+   useEffect(() => {
       if (deleted) {
-         await axios
+         axios
             .get(`${API_URL}/comments?filters[postId]=${postID}`) //
             .then((res) => {
                setComments(res.data.data);
@@ -64,100 +64,97 @@ export default function CommentCard({ comment, commetID, postID }) {
    };
 
    return (
-      console.log("deleted", deleted),
-      (
-         <>
-            <li className={styles.comment}>
-               <ToastContainer />
-               <div className={styles.user}>
-                  <p>ID : {comment.name} </p>
-                  <p>EMAIL : {comment.email}</p>
-               </div>
-               <div className={styles.body}>
-                  {/* <p>{comment.body}</p> */}
-                  <input
-                     type="text"
-                     name="body"
-                     value={values.body}
-                     readOnly={isReadOnly}
-                     onChange={handleEditComment}
-                  />
-                  {user?.attributes.username === comment.name && (
-                     <div className="flex-end">
-                        {isReadOnly ? (
-                           <CommonButton
-                              type="button"
-                              classType="btn_comment_control"
-                              executor={() => {
-                                 setIsReadOnly(false);
-                              }}
-                           >
-                              Edit
-                           </CommonButton>
-                        ) : (
-                           <CommonButton
-                              type="submit"
-                              classType="btn_comment_control"
-                              executor={() => {
-                                 handleEditSubmit();
-                              }}
-                           >
-                              OK
-                           </CommonButton>
-                        )}
-
+      <>
+         <li className={styles.comment}>
+            <ToastContainer />
+            <div className={styles.user}>
+               <p>ID : {comment.name} </p>
+               <p>EMAIL : {comment.email}</p>
+            </div>
+            <div className={styles.body}>
+               {/* <p>{comment.body}</p> */}
+               <input
+                  type="text"
+                  name="body"
+                  value={values.body}
+                  readOnly={isReadOnly}
+                  onChange={handleEditComment}
+               />
+               {user?.attributes.username === comment.name && (
+                  <div className="flex-end">
+                     {isReadOnly ? (
                         <CommonButton
                            type="button"
                            classType="btn_comment_control"
-                           executor={() => setShowModal(true)}
+                           executor={() => {
+                              setIsReadOnly(false);
+                           }}
                         >
-                           Delete
+                           Edit
                         </CommonButton>
-                     </div>
-                  )}
-               </div>
-            </li>
-            <Modal
-               onClose={() => setShowModal(false)}
-               show={showModal}
-               title="Delete Comment"
-            >
-               {!deleted ? (
-                  <>
-                     <p>Are you really sure the Comment delete?</p>
-                     <div className="flex-center">
+                     ) : (
                         <CommonButton
-                           type="button"
-                           classType="modal_delete"
-                           executor={() => delComment()}
+                           type="submit"
+                           classType="btn_comment_control"
+                           executor={() => {
+                              handleEditSubmit();
+                           }}
                         >
                            OK
                         </CommonButton>
-                        <CommonButton
-                           type="button"
-                           classType="modal_delete"
-                           executor={() => setShowModal(false)}
-                        >
-                           cancel
-                        </CommonButton>
-                     </div>
-                  </>
-               ) : (
-                  <>
-                     <p>The Comment has been deleted.</p>
+                     )}
+
+                     <CommonButton
+                        type="button"
+                        classType="btn_comment_control"
+                        executor={() => setShowModal(true)}
+                     >
+                        Delete
+                     </CommonButton>
+                  </div>
+               )}
+            </div>
+         </li>
+         <Modal
+            onClose={() => setShowModal(false)}
+            show={showModal}
+            title="Delete Comment"
+         >
+            {!deleted ? (
+               <>
+                  <p>Are you really sure the Comment delete?</p>
+                  <div className="flex-center">
                      <CommonButton
                         type="button"
                         classType="modal_delete"
-                        executor={() => {
-                           setShowModal(false);
-                        }}
+                        executor={() => delComment()}
                      >
-                        ok
+                        OK
                      </CommonButton>
-                  </>
-               )}
-            </Modal>
-         </>
-      )
+                     <CommonButton
+                        type="button"
+                        classType="modal_delete"
+                        executor={() => setShowModal(false)}
+                     >
+                        cancel
+                     </CommonButton>
+                  </div>
+               </>
+            ) : (
+               <>
+                  <p>The Comment has been deleted.</p>
+                  <CommonButton
+                     type="button"
+                     classType="modal_delete"
+                     executor={() => {
+                        setShowModal(false);
+                     }}
+                  >
+                     ok
+                  </CommonButton>
+               </>
+            )}
+         </Modal>
+      </>
    );
 }

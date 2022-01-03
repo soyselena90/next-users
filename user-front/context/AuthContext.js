@@ -8,6 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
    const [user, setUser] = useState(null);
    const [comments, setComments] = useState(null);
+   const [todos, setTodos] = useState(null);
    const [error, setError] = useState(null);
    const router = useRouter();
 
@@ -39,18 +40,19 @@ export const AuthProvider = ({ children }) => {
       if (response.status !== 200) {
          setError(delItem);
       }
+      if (method === "todos") {
+      }
    };
 
-   // comment
-
-   const getComments = async () => {
+   const getTodos = async (id) => {
       await axios
-         .get(`${API_URL}/comments`)
-         .then((response) => {
-            const commentRes = response.data.data;
-            setComments(commentRes);
+         .get(`${API_URL}/todos?filters[userId]=${id}`)
+         .then((res) => {
+            setTodos(res.data.data);
+            console.log("elfkfl", id);
+            console.log("todos", todos);
          })
-         .catch((err) => setError(err));
+         .catch((err) => console.log("err", err));
    };
 
    return (
@@ -62,9 +64,11 @@ export const AuthProvider = ({ children }) => {
             login,
             logout,
             deleteItem,
-            getComments,
             comments,
             setComments,
+            todos,
+            setTodos,
+            getTodos,
          }}
       >
          {children}

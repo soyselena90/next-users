@@ -24,7 +24,8 @@ export default function Header() {
                         </Link>
                      </li>
                      <li>
-                        <Link href="/">
+                        <Link href={`/todos/${user.id}`}>
+                           {/* <Link href={`/todos`}> */}
                            <a className={styles.navList}>Todos</a>
                         </Link>
                      </li>

@@ -8,7 +8,7 @@ import CommentCard from "./CommentCard";
 import AddComment from "./AddComment";
 
 export default function PostCard({ post, postID }) {
-   const { user, deleteItem, comments, getComments } = useContext(AuthContext);
+   const { user, deleteItem, comments } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
    const [deleted, setDeleted] = useState(false);
    const [showComments, setShowComments] = useState(false);
