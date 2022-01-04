@@ -12,11 +12,7 @@ import { useContext, useState, useEffect } from "react";
 
 export default function Posts({ posts, page, total }) {
    const [showModal, setShowModal] = useState(false);
-   const { user, getComments } = useContext(AuthContext);
-
-   useEffect(() => {
-      getComments();
-   }, []);
+   const { user } = useContext(AuthContext);
 
    return (
       <Layout

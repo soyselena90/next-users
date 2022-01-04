@@ -25,12 +25,11 @@ export default function Header() {
                      </li>
                      <li>
                         <Link href={`/todos/${user.id}`}>
-                           {/* <Link href={`/todos`}> */}
                            <a className={styles.navList}>Todos</a>
                         </Link>
                      </li>
                      <li>
-                        <Link href="/">
+                        <Link href={`/albums/${user.id}`}>
                            <a className={styles.navList}>Albums</a>
                         </Link>
                      </li>

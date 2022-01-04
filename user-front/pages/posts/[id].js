@@ -8,9 +8,8 @@ import AuthContext from "context/AuthContext";
 import PostCard from "@/components/PostCard";
 import { useContext, useEffect } from "react";
 
-export default function PostList({ posts, id, commentsData }) {
-   const { user, setUser, setComments, comments } = useContext(AuthContext);
-
+export default function PostList({ posts, id }) {
+   const { user, setUser } = useContext(AuthContext);
    const router = useRouter();
 
    useEffect(() => {
@@ -23,47 +22,43 @@ export default function PostList({ posts, id, commentsData }) {
             console.log("error :", err);
             router.push("/404");
          });
-      setComments(commentsData);
    }, [id]);
 
    return (
-      console.log("post id page:", comments),
-      (
-         <Layout title={`${user?.attributes.name} posts page`}>
-            <div className="min-height">
-               <h1 className="title m2em">
-                  Posts of
-                  <span
-                     style={{
-                        color: "#ed2828",
-                        marginLeft: "0.3em",
-                        textTransform: "uppercase",
-                     }}
-                  >
-                     {user?.attributes.username}
-                  </span>
-               </h1>
-               <div className="user_button right">
-                  <Link href="/posts">
-                     <a className="buttonAll">All posts</a>
-                  </Link>
-                  <Link href={`/posts/add/${user?.id}`}>
-                     <a>add post</a>
-                  </Link>
-               </div>
-               <ul>
-                  {posts?.map((post) => (
-                     <PostCard
-                        key={post.id}
-                        postID={post.id}
-                        post={post.attributes}
-                     />
-                  ))}
-               </ul>
-               {posts.length === 0 && <NoUser content="Post" />}
+      <Layout title={`${user?.attributes.name} posts page`}>
+         <div className="min-height">
+            <h1 className="title m2em">
+               Posts of
+               <span
+                  style={{
+                     color: "#ed2828",
+                     marginLeft: "0.3em",
+                     textTransform: "uppercase",
+                  }}
+               >
+                  {user?.attributes.username}
+               </span>
+            </h1>
+            <div className="user_button right">
+               <Link href="/posts">
+                  <a className="buttonAll">All posts</a>
+               </Link>
+               <Link href={`/posts/add/${user?.id}`}>
+                  <a>add post</a>
+               </Link>
             </div>
-         </Layout>
-      )
+            <ul>
+               {posts?.map((post) => (
+                  <PostCard
+                     key={post.id}
+                     postID={post.id}
+                     post={post.attributes}
+                  />
+               ))}
+            </ul>
+            {posts.length === 0 && <NoUser content="Post" />}
+         </div>
+      </Layout>
    );
 }
 
@@ -104,10 +99,7 @@ export async function getServerSideProps(context) {
    const { id } = context.query;
    const resposne = await axios.get(`${API_URL}/posts?filters[userId]=${id}`);
    const posts = resposne.data.data;
-
-   const commentsRes = await axios.get(`${API_URL}/comments`);
-   const commentsData = commentsRes.data.data;
    return {
-      props: { posts, id, commentsData },
+      props: { posts, id },
    };
 }

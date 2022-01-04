@@ -10,8 +10,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 
 export default function PostCard({ post, postID }) {
-   const { user, deleteItem, comments, setComments, getComments } =
-      useContext(AuthContext);
+   const { user, deleteItem, setComments, comments } = useContext(AuthContext);
    const [showModal, setShowModal] = useState(false);
    const [deleted, setDeleted] = useState(false);
    const [showComments, setShowComments] = useState(false);
@@ -35,16 +34,17 @@ export default function PostCard({ post, postID }) {
          setShowModal(true);
       }
    };
-
-   useEffect(() => {
-      getComments();
-   }, []);
-
-   useEffect(() => {
-      const filterComment = comments?.filter((comment) => {
-         return comment.attributes.postId == postID;
-      });
-      setPostComments(filterComment);
+   useEffect(async () => {
+      await axios
+         .get(`${API_URL}/comments`)
+         .then((res) => {
+            setComments(res.data.data);
+            const filterComment = comments?.filter((comment) => {
+               return comment.attributes.postId == postID;
+            });
+            setPostComments(filterComment);
+         })
+         .catch((err) => console.log("comments error :", err));
    }, []);
 
    return (

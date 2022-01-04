@@ -37,11 +37,20 @@ export const AuthProvider = ({ children }) => {
 
       const response = await axios.delete(`${API_URL}/${method}/${id}`);
       const delItem = response.data.data;
-      if (response.status !== 200) {
+      if (response.status == 200) {
+         console.log("deleted :", delItem);
+      } else {
          setError(delItem);
       }
-      if (method === "todos") {
-      }
+   };
+   //get comments lists
+   const getComments = async () => {
+      await axios
+         .get(`${API_URL}/comments`)
+         .then((res) => {
+            setComments(res.data.data);
+         })
+         .catch((err) => console.log("comment error :", err));
    };
 
    //get todo lists
@@ -50,22 +59,10 @@ export const AuthProvider = ({ children }) => {
          .get(`${API_URL}/todos?filters[userId]=${id}`)
          .then((res) => {
             setTodos(res.data.data);
-            console.log("elfkfl", id);
-            console.log("todos", todos);
          })
          .catch((err) => console.log("err", err));
    };
 
-   //get comments lists
-   const getComments = async (id) => {
-      await axios
-         .get(`${API_URL}/comments?filters[postId]=${id}`)
-         .then((res) => {
-            setComments(res.data.data);
-            console.log("setComments", comments);
-         })
-         .catch((err) => console.log("err", err));
-   };
    return (
       <AuthContext.Provider
          value={{
@@ -77,7 +74,6 @@ export const AuthProvider = ({ children }) => {
             deleteItem,
             comments,
             setComments,
-            getComments,
             todos,
             setTodos,
             getTodos,

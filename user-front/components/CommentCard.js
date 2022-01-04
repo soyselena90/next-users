@@ -33,7 +33,7 @@ export default function CommentCard({ comment, commetID, postID }) {
             })
             .catch((err) => console.log("Comment delete error :", err));
       }
-   }, []);
+   }, [deleted]);
 
    const handleEditSubmit = async () => {
       setIsReadOnly(true);
@@ -47,9 +47,10 @@ export default function CommentCard({ comment, commetID, postID }) {
          await axios
             .put(`${API_URL}/comments/${commetID}`, {
                data: { ...values },
-            }) //
+            })
             .then((res) => {
                console.log("res-comment-edit :", res.data.data);
+               router(`/posts/${postID}`);
             })
             .catch((err) => console.log("Comment edit error :", err));
       }
